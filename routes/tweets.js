@@ -10,12 +10,15 @@ const asyncHandler = (handler) => {
     };
 };
 
-const tweetNotFoundError = (tweetId) => {
+const tweetNotFoundError = (tweetId, next) => {
 
-    const err = new Error(`Tweet #${tweetId} not found.`);
-    err.status = 404; // Forbidden
-    next(err);
-    
+    const err = new Error({
+        title: "Tweet not found.",
+    });
+    // err.errors = [`Tweet with the id of ${tweetId} does not exist`]
+    err.status = 404;
+    err.title =  `Tweet with the id of ${tweetId} does not exist`
+    return err    
 };
 
 router.get('/', asyncHandler(async (req, res, next) => {
@@ -26,11 +29,13 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 router.get('/:id(\\d+)', asyncHandler(async (req, res, next) => {
     const tweetId = req.params.id
-    const tweet = await Tweet.findPk(tweetId)
-    
-    tweetNotFoundError(tweet);
-
-    res.json({ tweet })
+    const tweet = await Tweet.findByPk(tweetId)
+    // console.log(tweet)
+    if(tweet){
+        return res.json({ tweet })
+    }else{
+        next(tweetNotFoundError(tweetId));
+    }
 }));
 
 module.exports = router
