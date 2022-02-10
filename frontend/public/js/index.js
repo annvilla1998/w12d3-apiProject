@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-      const res = await fetch("http://localhost:8080/tweets");
+      const res = await fetch("http://localhost:8080/tweets", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "TWITTER_LITE_ACCESS_TOKEN"
+          )}`,
+        },
+      });
       const { tweets } = await res.json();
       
       const tweetsContainer = document.querySelector("#tweets-container");
@@ -16,5 +22,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       tweetsContainer.innerHTML = tweetsHtml.join("");
     } catch (e) {
       console.error(e);
+    }
+    if (res.status === 401) {
+      window.location.href = "/log-in";
+      return;
     }
   });

@@ -7,6 +7,9 @@ const { Tweet } = db;
 const { tweetNotFoundError,
     handleValidationErrors,
     asyncHandler} = require('../utils')
+const { requireAuth } = require("../auth");
+
+router.use(requireAuth);
 
     const validateTask = [
         //  Task name cannot be empty:
