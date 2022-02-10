@@ -2,6 +2,7 @@ const express = require('express');
 const res = require('express/lib/response');
 const router = express.Router();
 const db = require("../db/models");
+const {check } =  require("express-validator");
 const { Tweet } = db;
 const { tweetNotFoundError,
     handleValidationErrors,
