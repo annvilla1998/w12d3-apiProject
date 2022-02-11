@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           )}`,
         },
       });
+      if (res.status === 401) {
+        window.location.href = "/log-in";
+        return;
+    }
       const { tweets } = await res.json();
       
       const tweetsContainer = document.querySelector("#tweets-container");
@@ -22,9 +26,5 @@ document.addEventListener("DOMContentLoaded", async () => {
       tweetsContainer.innerHTML = tweetsHtml.join("");
     } catch (e) {
       console.error(e);
-    }
-    if (res.status === 401) {
-      window.location.href = "/log-in";
-      return;
     }
   });

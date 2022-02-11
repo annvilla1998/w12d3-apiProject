@@ -1,7 +1,5 @@
-const { password } = require("pg/lib/defaults");
 
 const signUpForm = document.querySelector(".sign-up-form");
-const formData = new FormData(signUpForm);
 
 signUpForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -20,6 +18,7 @@ signUpForm.addEventListener("submit", async (e) => {
           "Content-Type": "application/json",
         },
       });
+      console.log(res)
   
       if (!res.ok) {
         throw res;
